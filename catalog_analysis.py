@@ -34,7 +34,18 @@ def duration_in_hours(minutes):
     movie_minutes = minutes % 60
     return movie_hours, movie_minutes
 
+def rating_tier(rating):
+    return "шедевр" if rating >= 9 else "хорошо" if rating >= 7 else "средне" if rating >= 5 else "слабо"
 
+def decade_label(year):
+    match year:
+        case _ if year > 2020:
+            return "новые"
+        case _ if year >= 2015:
+            return "недавние"
+        case _:
+            return "старые"
+ 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -61,3 +72,5 @@ movies = [
 print('Средний рейтинг фильмов по каталогу', average_rating(movies))
 print('Лет самому старому, самому новому и в среднем фильмам в каталоге соответственно:', catalog_age_stats(movies))
 print('Длительность фильма The Dune Chronicles:', duration_in_hours(movies[0]["duration_min"]))
+print('Согласно рейтингу фильм входит в категорию', rating_tier(movies[0]["rating"]))
+print('Согласно году выходы фильм входит в категорию', decade_label(movies[0]["year"]))
