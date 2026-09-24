@@ -1,0 +1,5 @@
+.env
+config.env
+*.pem
+id_rsa*
+.venv/
