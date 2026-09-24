@@ -45,7 +45,14 @@ def decade_label(year):
             return "недавние"
         case _:
             return "старые"
- 
+
+def count_long_movies(movies, threshold=120):
+    i = 0
+    for movie in movies:
+        if movie['duration_min'] > threshold:
+            i += 1
+    return i 
+
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -69,8 +76,30 @@ movies = [
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
 ]
 
-print('Средний рейтинг фильмов по каталогу', average_rating(movies))
-print('Лет самому старому, самому новому и в среднем фильмам в каталоге соответственно:', catalog_age_stats(movies))
-print('Длительность фильма The Dune Chronicles:', duration_in_hours(movies[0]["duration_min"]))
-print('Согласно рейтингу фильм входит в категорию', rating_tier(movies[0]["rating"]))
-print('Согласно году выходы фильм входит в категорию', decade_label(movies[0]["year"]))
+for movie in movies: 
+    comedy = 0
+    for genres in movie["genres"]:
+        if genres == 'comedy':
+            comedy = 1
+    if comedy == 1:
+        continue
+    else:
+        print(movie['title'])
+
+i = 0
+
+while i < len(movies):
+    if movies[i]['rating'] > 9:
+        print(movies[i]['title'], ' - шедевр')
+        break
+    i += 1
+else:
+    print('Шедевров не найдено')
+
+# Комментарии ниже нужны для проверки работоспособности функций
+# print('Средний рейтинг фильмов по каталогу', average_rating(movies))
+# print('Лет самому старому, самому новому и в среднем фильмам в каталоге соответственно:', catalog_age_stats(movies))
+# print('Длительность фильма The Dune Chronicles:', duration_in_hours(movies[0]["duration_min"]))
+# print('Согласно рейтингу фильм входит в категорию', rating_tier(movies[0]["rating"]))
+# print('Согласно году выходы фильм входит в категорию', decade_label(movies[0]["year"]))
+# print('Количество фильмов дольше 120 минут:', count_long_movies(movies))
