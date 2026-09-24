@@ -1,3 +1,40 @@
+import math
+
+def average_rating(movies):
+    """
+    Возвращает среднюю оценку по каталогу с округлением до одного знака
+    """ 
+    sum_rating = sum(movie["rating"] for movie in movies)
+    av_rating = sum_rating/len(movies)
+    return round(av_rating, 1)
+
+def catalog_age_stats(movies, current_year=2026):
+    """
+    Возвращает кортеж (самый старый фильм в годах, самых новый фильм в годах, среднее)
+    с округлением вверх
+    """
+    oldest_movie = 0
+    newest_movie = 200
+    ages_total = 0
+    for movie in movies:
+        if current_year - movie["year"] >= oldest_movie:
+            oldest_movie = current_year - movie["year"]
+        if current_year - movie["year"] <= newest_movie:
+                newest_movie = current_year - movie["year"]
+        ages_total += current_year - movie["year"]
+    average_movie = math.ceil(ages_total/len(movies))
+    return oldest_movie, newest_movie, average_movie
+        
+
+def duration_in_hours(minutes):
+    """
+    Переревод минут в формат "Xч Yм", используя целочисленное деление и остаток от деления
+    """
+    movie_hours = minutes // 60
+    movie_minutes = minutes % 60
+    return movie_hours, movie_minutes
+
+
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -20,3 +57,7 @@ movies = [
     {"title": "Red Harbor", "year": 2018, "genres": {"action", "thriller"},
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
 ]
+
+print('Средний рейтинг фильмов по каталогу', average_rating(movies))
+print('Лет самому старому, самому новому и в среднем фильмам в каталоге соответственно:', catalog_age_stats(movies))
+print('Длительность фильма The Dune Chronicles:', duration_in_hours(movies[0]["duration_min"]))
