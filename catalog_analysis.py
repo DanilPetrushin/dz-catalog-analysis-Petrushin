@@ -53,6 +53,27 @@ def count_long_movies(movies, threshold=120):
             i += 1
     return i 
 
+def normalize_title(title):
+    title = title.split()
+    all_phrase = []
+    for word in title:
+        phrase = word[0].upper() + word[1:].lower() 
+        all_phrase.append(phrase)
+        #В качестве альтернативы двум верхним строкам можно использовать
+        #all_phrase.append(word.capitalize()) 
+    return " ".join(all_phrase).lstrip().rstrip()
+
+
+def make_slug(title):
+    return title.lower().replace(" ", "-")
+
+def format_report_line(movie):
+    hours, minutes = duration_in_hours(movie["duration_min"])
+    genres = ", ".join(sorted(movie["genres"])) #в целом можно без sorted, но так красивее
+    phrase = (f'{normalize_title(movie["title"])} ({movie["year"]}) '
+              f'— {movie["rating"]}/10, {hours}ч {minutes}м, жанры: {genres}')
+    return phrase
+
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -103,3 +124,12 @@ else:
 # print('Согласно рейтингу фильм входит в категорию', rating_tier(movies[0]["rating"]))
 # print('Согласно году выходы фильм входит в категорию', decade_label(movies[0]["year"]))
 # print('Количество фильмов дольше 120 минут:', count_long_movies(movies))
+
+# for movie in movies:
+#     print(normalize_title(movie["title"]))
+
+# for movie in movies:
+#     print(make_slug(movie["title"]))
+
+# for movie in movies:
+#     print(format_report_line(movie))
