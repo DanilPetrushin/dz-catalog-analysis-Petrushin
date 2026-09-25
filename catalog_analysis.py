@@ -24,7 +24,6 @@ def catalog_age_stats(movies, current_year=2026):
         ages_total += current_year - movie["year"]
     average_movie = math.ceil(ages_total/len(movies))
     return oldest_movie, newest_movie, average_movie
-        
 
 def duration_in_hours(minutes):
     """
@@ -63,7 +62,6 @@ def normalize_title(title):
         #all_phrase.append(word.capitalize()) 
     return " ".join(all_phrase).lstrip().rstrip()
 
-
 def make_slug(title):
     return title.lower().replace(" ", "-")
 
@@ -73,6 +71,16 @@ def format_report_line(movie):
     phrase = (f'{normalize_title(movie["title"])} ({movie["year"]}) '
               f'— {movie["rating"]}/10, {hours}ч {minutes}м, жанры: {genres}')
     return phrase
+
+def titles_sorted_by_rating(movies):
+    # lambda нужна, чтобы не создавать отдельную функцию для получения рейтинга
+    movies_sorted = sorted(movies, key = lambda movie: movie["rating"], reverse = True)
+    return[movie["title"] for movie in movies_sorted]
+
+def top_n_by_rating(movies, n=3):
+    movies_sorted = sorted(movies, key = lambda movie: movie["rating"], reverse = True)
+    #return возвращает именно [список (кортежей)], поэтому movie в (), который в []
+    return [(movie["title"], movie["rating"]) for movie in movies_sorted[:n]]
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
@@ -133,3 +141,7 @@ else:
 
 # for movie in movies:
 #     print(format_report_line(movie))
+
+# print(titles_sorted_by_rating(movies))
+
+# print(top_n_by_rating(movies, 3))
