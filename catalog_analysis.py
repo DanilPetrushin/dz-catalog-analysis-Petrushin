@@ -104,6 +104,27 @@ def actor_filmography(movies):
                 actor_dictionary[actor].append(movie["title"])
     return actor_dictionary
 
+### ЭТАП 7. МНОЖЕСТВА
+def all_genres(movies):
+    unique_genres = set()
+    for movie in movies:
+        unique_genres = unique_genres | movie["genres"]
+    return unique_genres
+
+def common_actors(movie1, movie2):
+    actors1 = set(movie1["actors"])
+    actors2 = set(movie2["actors"])
+    return actors1 & actors2
+
+def genres_only_in_one(movies_a, movies_b):
+    genres_a = set()
+    genres_b = set()
+    for movie in movies_a:
+        genres_a = genres_a | movie["genres"]
+    for movie in movies_b:
+        genres_b = genres_b | movie["genres"]    
+    return genres_a - genres_b
+
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -174,3 +195,7 @@ above_average_rating = {movie["title"]: movie["rating"] for movie in movies if m
 
 # print(count_by_genre(movies))
 # print(actor_filmography(movies))
+
+#print("Все уникальные жанры:", all_genres(movies))
+#print("Актёры, которые снимались и в", movies[1]["title"], "и в", movies[4]["title"],":", common_actors(movies[1], movies[4]))
+print(genres_only_in_one(movies[5:6], movies[:5]))
