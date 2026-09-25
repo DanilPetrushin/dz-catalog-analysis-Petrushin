@@ -125,6 +125,12 @@ def genres_only_in_one(movies_a, movies_b):
         genres_b = genres_b | movie["genres"]    
     return genres_a - genres_b
 
+### ЭТАП 8. ИТЕРАТОРЫ И ГЕНЕРАТОРЫ
+def iter_high_rated(movies, min_rating=8.0):
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
      "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
@@ -172,6 +178,11 @@ else:
 above_average_rating = {movie["title"]: movie["rating"] for movie in movies if movie["rating"] > average_rating(movies)}
 # print(above_average_rating)
 
+### ЭТАП 7. ИТЕРАТОРЫ И ГЕНЕРАТОРЫ
+for movie in iter_high_rated(movies):
+    print(format_report_line(movie))
+print(sum(movie["duration_min"] for movie in movies if movie["rating"] > 7))
+
 # Комментарии ниже нужны для проверки работоспособности функций
 
 # print('Средний рейтинг фильмов по каталогу', average_rating(movies))
@@ -198,4 +209,6 @@ above_average_rating = {movie["title"]: movie["rating"] for movie in movies if m
 
 #print("Все уникальные жанры:", all_genres(movies))
 #print("Актёры, которые снимались и в", movies[1]["title"], "и в", movies[4]["title"],":", common_actors(movies[1], movies[4]))
-print(genres_only_in_one(movies[5:6], movies[:5]))
+# print(genres_only_in_one(movies[5:6], movies[:5]))
+
+
