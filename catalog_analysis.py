@@ -78,7 +78,6 @@ def format_report_line(movie):
 
 ### ЭТАП 5. СПИСКИ
 def titles_sorted_by_rating(movies):
-    # lambda нужна, чтобы не создавать отдельную функцию для получения рейтинга
     movies_sorted = sorted(movies, key = lambda movie: movie["rating"], reverse = True)
     return[movie["title"] for movie in movies_sorted]
 
@@ -130,6 +129,24 @@ def iter_high_rated(movies, min_rating=8.0):
     for movie in movies:
         if movie["rating"] >= min_rating:
             yield movie
+
+### ЭТАП 9. ИТОГОВЫЙ ОТЧЁТ
+def build_report(movies):
+    x, x, average_age  = catalog_age_stats(movies) 
+    print('ОТЧЁТ ПО КАТАЛОГУ')
+    print('Средний рейтинг', average_rating(movies))
+    print('Средний возраст фильмов:', average_age)
+    print('\nТоп-3 фильма:')
+    for title, rating in top_n_by_rating(movies):
+        for movie in movies:
+            if movie["title"] == title:
+                print(format_report_line(movie))
+    print("\nФильмов по жанрам:")
+    genre_counter = count_by_genre(movies)
+    for genre in genre_counter:
+        print(genre, "—", genre_counter.get(genre, 0))
+    print("\nВсе жанры каталога:", ', '.join(sorted(all_genres(movies))))
+    
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
@@ -183,6 +200,8 @@ for movie in iter_high_rated(movies):
     print(format_report_line(movie))
 print(sum(movie["duration_min"] for movie in movies if movie["rating"] > 7))
 
+### ЭТАП 9. ИТОГОВЫЙ ОТЧЁТ
+build_report(movies)
 # Комментарии ниже нужны для проверки работоспособности функций
 
 # print('Средний рейтинг фильмов по каталогу', average_rating(movies))
