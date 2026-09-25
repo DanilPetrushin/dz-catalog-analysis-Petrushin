@@ -1,5 +1,6 @@
 import math
 
+### ЭТАП 1. РАЗМИНКА: ПЕРЕМЕННЫЕ, ЧИСЛА, MATH
 def average_rating(movies):
     """
     Возвращает среднюю оценку по каталогу с округлением до одного знака
@@ -33,6 +34,7 @@ def duration_in_hours(minutes):
     movie_minutes = minutes % 60
     return movie_hours, movie_minutes
 
+### ЭТАП 2. УСЛОВИЯ И MATCH
 def rating_tier(rating):
     return "шедевр" if rating >= 9 else "хорошо" if rating >= 7 else "средне" if rating >= 5 else "слабо"
 
@@ -45,6 +47,7 @@ def decade_label(year):
         case _:
             return "старые"
 
+### ЭТАП 3. ЦИКЛЫ 
 def count_long_movies(movies, threshold=120):
     i = 0
     for movie in movies:
@@ -52,6 +55,7 @@ def count_long_movies(movies, threshold=120):
             i += 1
     return i 
 
+### ЭТАП 4. СТРОКИ
 def normalize_title(title):
     title = title.split()
     all_phrase = []
@@ -72,6 +76,7 @@ def format_report_line(movie):
               f'— {movie["rating"]}/10, {hours}ч {minutes}м, жанры: {genres}')
     return phrase
 
+### ЭТАП 5. СПИСКИ
 def titles_sorted_by_rating(movies):
     # lambda нужна, чтобы не создавать отдельную функцию для получения рейтинга
     movies_sorted = sorted(movies, key = lambda movie: movie["rating"], reverse = True)
@@ -81,6 +86,23 @@ def top_n_by_rating(movies, n=3):
     movies_sorted = sorted(movies, key = lambda movie: movie["rating"], reverse = True)
     #return возвращает именно [список (кортежей)], поэтому movie в (), который в []
     return [(movie["title"], movie["rating"]) for movie in movies_sorted[:n]]
+
+### ЭТАП 6. СЛОВАРИ
+def count_by_genre(movies):
+    genre_dictionary = {}
+    for movie in movies:
+        for genre in movie["genres"]:
+            genre_dictionary[genre] = genre_dictionary.get(genre,0) + 1
+    return genre_dictionary
+
+def actor_filmography(movies):
+    actor_dictionary = {}
+    for movie in movies:
+        for actor in movie["actors"]:
+                if actor not in actor_dictionary:
+                    actor_dictionary[actor] = []
+                actor_dictionary[actor].append(movie["title"])
+    return actor_dictionary
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
@@ -105,6 +127,7 @@ movies = [
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
 ]
 
+### ЭТАП 3. ЦИКЛЫ 
 for movie in movies: 
     comedy = 0
     for genres in movie["genres"]:
@@ -116,7 +139,6 @@ for movie in movies:
         print(movie['title'])
 
 i = 0
-
 while i < len(movies):
     if movies[i]['rating'] > 9:
         print(movies[i]['title'], ' - шедевр')
@@ -125,7 +147,12 @@ while i < len(movies):
 else:
     print('Шедевров не найдено')
 
+### ЭТАП 6. СЛОВАРИ
+above_average_rating = {movie["title"]: movie["rating"] for movie in movies if movie["rating"] > average_rating(movies)}
+# print(above_average_rating)
+
 # Комментарии ниже нужны для проверки работоспособности функций
+
 # print('Средний рейтинг фильмов по каталогу', average_rating(movies))
 # print('Лет самому старому, самому новому и в среднем фильмам в каталоге соответственно:', catalog_age_stats(movies))
 # print('Длительность фильма The Dune Chronicles:', duration_in_hours(movies[0]["duration_min"]))
@@ -143,5 +170,7 @@ else:
 #     print(format_report_line(movie))
 
 # print(titles_sorted_by_rating(movies))
-
 # print(top_n_by_rating(movies, 3))
+
+# print(count_by_genre(movies))
+# print(actor_filmography(movies))
