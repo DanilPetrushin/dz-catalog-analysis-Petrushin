@@ -1,5 +1,6 @@
 import math
 
+
 ### ЭТАП 1. РАЗМИНКА: ПЕРЕМЕННЫЕ, ЧИСЛА, MATH
 def average_rating(movies):
     sum_rating = sum(movie["rating"] for movie in movies)
@@ -26,7 +27,7 @@ def duration_in_hours(minutes):
 
 ### ЭТАП 2. УСЛОВИЯ И MATCH
 def rating_tier(rating):
-    return "шедевр" if rating >= 9 else "хорошо" if rating >= 7 else "средне" if rating >= 5 else "слабо"
+    return "шедевр" if rating >= 9 else "хорошо" if rating >= 7 else "средне" if rating >= 5 else "слабо" #noqa: E501
 
 def decade_label(year):
     match year:
@@ -61,7 +62,7 @@ def make_slug(title):
 
 def format_report_line(movie):
     hours, minutes = duration_in_hours(movie["duration_min"])
-    genres = ", ".join(sorted(movie["genres"])) #в целом можно без sorted, но так красивее
+    genres = ", ".join(sorted(movie["genres"]))
     phrase = (f'{normalize_title(movie["title"])} ({movie["year"]}) '
               f'— {movie["rating"]}/10, {hours}ч {minutes}м, жанры: {genres}')
     return phrase
@@ -139,7 +140,7 @@ def build_report(movies):
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
-     "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
+     "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]}, #noqa: E501
     {"title": "Kitchen Stories", "year": 2019, "genres": {"comedy", "drama"},
      "rating": 7.1, "duration_min": 98, "actors": ["A. Novak", "M. Ferguson"]},
     {"title": "silent hours", "year": 2016, "genres": {"thriller", "drama"},
@@ -181,7 +182,9 @@ movies = [
 #     print('Шедевров не найдено')
 
 ### ЭТАП 6. СЛОВАРИ
-# above_average_rating = {movie["title"]: movie["rating"] for movie in movies if movie["rating"] > average_rating(movies)}
+# above_average_rating = {movie["title"]: movie["rating"] 
+# for movie in movies if movie["rating"] > average_rating(movies)}
+# print(above_average_rating)
 
 ### ЭТАП 7. ИТЕРАТОРЫ И ГЕНЕРАТОРЫ
 # for movie in iter_high_rated(movies):
